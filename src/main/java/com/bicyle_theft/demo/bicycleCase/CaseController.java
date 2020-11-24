@@ -61,4 +61,17 @@ public class CaseController {
         return aCase;
     }
 
+    @Operation(summary = "delete a case by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "delete the case",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Case.class)) }),
+            @ApiResponse(responseCode = "404", description = "this case Not Found!",
+                    content = @Content) })
+    @DeleteMapping(value = {"/{caseId}"})
+    public void delete(@PathVariable(value = "caseId") UUID id) {
+        caseService.deleteById(id);
+    }
+
+
 }
