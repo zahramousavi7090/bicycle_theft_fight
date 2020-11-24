@@ -1,10 +1,16 @@
 package com.bicyle_theft.demo.police;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 
@@ -30,4 +36,18 @@ public class PoliceController {
     public List<Police> getPolices() {
         return policeService.getPolices();
     }
+
+    @Operation(summary = "Get a police by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the police",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Police.class)) }),
+            @ApiResponse(responseCode = "404", description = "this police Not Found!",
+                    content = @Content) })
+
+    @GetMapping(value = "/{policeId}")
+    public Optional<Police> getPoliceByID(@PathVariable("policeId") UUID id) {
+        return policeService.getPoliceByID(id);
+    }
+
 }
