@@ -15,8 +15,11 @@ public class Case {
     private final UUID id;
     @Column(name = "name")
     private String name;
+    @Column(name="status")
+    private String status;
     @Column(name="isDeleted")
     private boolean isDeleted;
+
     public Case() {
         this.id=UUID.randomUUID();
     }
@@ -29,17 +32,25 @@ public class Case {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
