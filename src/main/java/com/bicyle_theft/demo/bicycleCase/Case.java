@@ -2,6 +2,7 @@ package com.bicyle_theft.demo.bicycleCase;
 
 import com.bicyle_theft.demo.police.Police;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.Hidden;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -22,6 +23,7 @@ public class Case {
     @Column(name="isDeleted")
     private boolean isDeleted;
 
+    @Hidden
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "police_id",nullable = true)

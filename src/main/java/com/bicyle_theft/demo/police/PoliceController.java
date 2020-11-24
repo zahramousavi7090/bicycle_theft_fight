@@ -65,9 +65,7 @@ public class PoliceController {
 
     @Operation(summary = "delete a police by its id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "delete the police",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Police.class)) }),
+            @ApiResponse(responseCode = "200", description = "delete the police"),
             @ApiResponse(responseCode = "404", description = "this police Not Found!",
                     content = @Content) })
 

@@ -39,10 +39,10 @@ public class CaseController {
     @Operation(summary = "Get a case by its id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the case",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Case.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Case.class))}),
             @ApiResponse(responseCode = "404", description = "this case Not Found!",
-                    content = @Content) })
+                    content = @Content)})
 
     @GetMapping(value = "/{caseId}")
     public Optional<Case> getCaseByID(@PathVariable(value = "caseId") UUID id) {
@@ -52,10 +52,10 @@ public class CaseController {
     @Operation(summary = "edit a case by its id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "edit the case",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Case.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Case.class))}),
             @ApiResponse(responseCode = "404", description = "this case Not Found!",
-                    content = @Content) })
+                    content = @Content)})
     @PutMapping(value = "/{caseId}")
     public Case updateCase(@PathVariable(value = "caseId") UUID id, @RequestBody Case aCase) {
         caseService.updateCase(id, aCase);
@@ -64,11 +64,9 @@ public class CaseController {
 
     @Operation(summary = "delete a case by its id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "delete the case",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Case.class)) }),
+            @ApiResponse(responseCode = "200", description = "delete the case"),
             @ApiResponse(responseCode = "404", description = "this case Not Found!",
-                    content = @Content) })
+                    content = @Content)})
     @DeleteMapping(value = {"/{caseId}"})
     public void delete(@PathVariable(value = "caseId") UUID id) {
         caseService.deleteById(id);
@@ -76,8 +74,12 @@ public class CaseController {
 
 
     @Operation(summary = "patch a case by its id for change its status")
-    @PatchMapping(value="/close-case")
-    public void closeCase(@RequestBody CloseCaseDTO closeCaseDTO){
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "close case"),
+            @ApiResponse(responseCode = "400", description = "some data not valid or not found",
+                    content = @Content)})
+    @PatchMapping(value = "/close-case")
+    public void closeCase(@RequestBody CloseCaseDTO closeCaseDTO) {
         caseService.closeCase(closeCaseDTO);
 
 
