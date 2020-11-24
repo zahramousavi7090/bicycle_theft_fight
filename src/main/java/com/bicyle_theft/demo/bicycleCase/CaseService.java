@@ -1,5 +1,6 @@
 package com.bicyle_theft.demo.bicycleCase;
 
+import com.bicyle_theft.demo.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,12 +35,12 @@ public class CaseService {
         Optional<Case> currentCaseOpt = getCaseByID(id);
 
         if (!currentCaseOpt.isPresent()) {
-            throw new RuntimeException("this case Not Found!");
+            throw new NotFoundException("this case Not Found!");
         }
 
         Case currentCase = currentCaseOpt.get();
         if (currentCase.isDeleted()) {
-            throw new RuntimeException("this case Not found!");
+            throw new NotFoundException("this case Not found!");
         }
         currentCase.setName(acase.getName());
         return caseRepository.save(currentCase);
@@ -48,7 +49,7 @@ public class CaseService {
     @Transactional
     public void deleteById(UUID id) {
         if (!caseRepository.existsById(id))
-            throw new RuntimeException("this case Not Found!");
+            throw new NotFoundException("this case Not Found!");
         caseRepository.setDeleteById(id);
     }
 
