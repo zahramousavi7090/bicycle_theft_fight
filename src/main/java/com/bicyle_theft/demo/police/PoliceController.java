@@ -74,4 +74,10 @@ public class PoliceController {
         policeService.deleteByID(id);
     }
 
+    @Operation(summary = "find polices by status")
+    @GetMapping(value = "/find-polices-by-status")
+    public  List<Police> findPoliceByStatus(@RequestParam("status")String status){
+        return policeService.findPoliceByStatus(status);
+    }
+
 }

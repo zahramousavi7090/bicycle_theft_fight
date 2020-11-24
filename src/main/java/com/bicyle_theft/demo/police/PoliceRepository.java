@@ -22,4 +22,7 @@ public interface PoliceRepository extends JpaRepository<Police, UUID> {
     @Query("update Police p set p.status =:status where p.id =:id")
     void changeStatus(@Param(value = "id") UUID id, @Param(value = "status") String status);
 
+    @Query("select p from Police p where p.status =:status")
+    List<Police> findPoliceByStatus(@Param(value = "status") String status);
+
 }

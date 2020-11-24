@@ -57,4 +57,8 @@ public class PoliceService {
         policeRepository.setDeleteById(id);
     }
 
+    public List<Police> findPoliceByStatus(String status){
+       return policeRepository.findPoliceByStatus(status);
+    }
+
 }
