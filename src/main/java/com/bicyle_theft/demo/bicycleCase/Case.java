@@ -1,9 +1,10 @@
 package com.bicyle_theft.demo.bicycleCase;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.bicyle_theft.demo.police.Police;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Entity
@@ -13,12 +14,19 @@ public class Case {
     @Id
     @Column(name="id")
     private final UUID id;
+    @NotBlank
     @Column(name = "name")
     private String name;
     @Column(name="status")
     private String status;
     @Column(name="isDeleted")
     private boolean isDeleted;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "police_id",nullable = true)
+    private Police police;
+
 
     public Case() {
         this.id=UUID.randomUUID();
@@ -51,6 +59,14 @@ public class Case {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Police getPolice() {
+        return police;
+    }
+
+    public void setPolice(Police police) {
+        this.police = police;
     }
 
     @Override

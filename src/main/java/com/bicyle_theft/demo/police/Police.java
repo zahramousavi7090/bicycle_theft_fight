@@ -1,9 +1,11 @@
 package com.bicyle_theft.demo.police;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.bicyle_theft.demo.bicycleCase.Case;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -12,12 +14,18 @@ public class Police {
     @Id
     @Column(name = "id")
     private final UUID id;
+    @NotBlank
     @Column(name = "name")
     private String name;
     @Column(name="status")
     private String status;
     @Column(name = "isDeleted")
     private boolean isDeleted;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "police")
+    private Set<Case> cases;
+
 
     public Police() {
         this.id = UUID.randomUUID();
@@ -50,6 +58,16 @@ public class Police {
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
+
+    public Set<Case> getCases() {
+        return cases;
+    }
+
+    public void setCases(Set<Case> cases) {
+        this.cases = cases;
+    }
+
+
     @Override
     public String toString() {
         return "Police{" + id +
