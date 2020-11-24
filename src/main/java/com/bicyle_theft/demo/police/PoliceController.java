@@ -2,9 +2,7 @@ package com.bicyle_theft.demo.police;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +17,12 @@ public class PoliceController {
 
     public PoliceController(PoliceService policeService) {
         this.policeService = policeService;
+    }
+
+    @Operation(summary = "create a police")
+    @PostMapping
+    public Police createPolice(@RequestBody Police police) {
+        return policeService.createPolice(police);
     }
 
     @Operation(summary = "Get all polices")

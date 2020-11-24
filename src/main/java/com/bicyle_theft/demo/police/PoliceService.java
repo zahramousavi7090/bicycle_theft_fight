@@ -15,6 +15,12 @@ public class PoliceService {
         this.policeRepository = policeRepository;
     }
 
+
+    public Police createPolice(Police police) {
+        return policeRepository.save(police);
+    }
+
+
     public List<Police> getPolices() {
         return policeRepository.findAllNotDeleted();
     }
