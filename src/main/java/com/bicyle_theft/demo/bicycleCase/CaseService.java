@@ -71,4 +71,8 @@ public class CaseService {
         caseRepository.changeStatus(closeCaseDTO.getCaseId(), "close");
         policeRepository.changeStatus(closeCaseDTO.getPoliceId(), "free");
     }
+
+    public List<Case> findCasesByStatus(String status){
+        return caseRepository.findCasesByStatus(status);
+    }
 }

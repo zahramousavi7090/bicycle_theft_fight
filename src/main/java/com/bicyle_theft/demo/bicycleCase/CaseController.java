@@ -81,8 +81,12 @@ public class CaseController {
     @PatchMapping(value = "/close-case")
     public void closeCase(@RequestBody CloseCaseDTO closeCaseDTO) {
         caseService.closeCase(closeCaseDTO);
+    }
 
-
+    @Operation(summary = "find cases by status")
+    @GetMapping(value = "/find-cases-by-status")
+    public List<Case> findCasesByStatus(@RequestParam(value = "status") String status){
+        return caseService.findCasesByStatus(status);
     }
 
 }

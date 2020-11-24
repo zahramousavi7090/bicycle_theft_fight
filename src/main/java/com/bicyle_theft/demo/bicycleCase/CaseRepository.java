@@ -20,4 +20,7 @@ public interface CaseRepository extends JpaRepository<Case, UUID> {
     @Modifying
     @Query("update Case c set c.status =:status where c.id =:id")
     void changeStatus(@Param(value = "id") UUID id, @Param(value = "status") String status);
+
+    @Query("select c from Case c where c.status =:status")
+    List<Case> findCasesByStatus(@Param(value = "status")String status);
 }
