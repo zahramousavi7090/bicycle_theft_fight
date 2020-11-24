@@ -49,4 +49,10 @@ public class PoliceService {
         return policeRepository.save(currentPolice);
     }
 
+    public void deleteByID(UUID id) {
+        if (!policeRepository.existsById(id))
+            throw new NotFoundException("this police Not Found");
+        policeRepository.setDeleteById(id);
+    }
+
 }

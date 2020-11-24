@@ -61,7 +61,19 @@ public class PoliceController {
     @PutMapping(value = "/{policeId}")
     public Police updatePolice(@PathVariable(value = "policeId") UUID id, @RequestBody Police police) {
         return policeService.updatePolice(id, police);
+    }
 
+    @Operation(summary = "delete a police by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "delete the police",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Police.class)) }),
+            @ApiResponse(responseCode = "404", description = "this police Not Found!",
+                    content = @Content) })
+
+    @DeleteMapping(value = "/{policeId}")
+    public void deleteByID(@PathVariable(value = "policeId") UUID id) {
+        policeService.deleteByID(id);
     }
 
 }
