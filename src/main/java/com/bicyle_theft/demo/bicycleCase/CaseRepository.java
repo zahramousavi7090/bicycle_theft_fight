@@ -16,4 +16,8 @@ public interface CaseRepository extends JpaRepository<Case, UUID> {
     @Modifying
     @Query("update Case c set c.isDeleted = true where c.id =:id")
     void setDeleteById(@Param(value = "id") UUID id);
+
+    @Modifying
+    @Query("update Case c set c.status =:status where c.id =:id")
+    void changeStatus(@Param(value = "id") UUID id, @Param(value = "status") String status);
 }

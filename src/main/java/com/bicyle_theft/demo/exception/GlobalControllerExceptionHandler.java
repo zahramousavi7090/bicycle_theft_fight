@@ -15,4 +15,9 @@ public class GlobalControllerExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleBadRequest(RuntimeException ex){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+    }
 }

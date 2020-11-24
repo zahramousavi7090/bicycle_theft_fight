@@ -17,4 +17,9 @@ public interface PoliceRepository extends JpaRepository<Police, UUID> {
     @Query("update Police p set p.isDeleted=true where p.id =:id")
     void setDeleteById(@Param(value = "id") UUID id);
 
+
+    @Modifying
+    @Query("update Police p set p.status =:status where p.id =:id")
+    void changeStatus(@Param(value = "id") UUID id, @Param(value = "status") String status);
+
 }

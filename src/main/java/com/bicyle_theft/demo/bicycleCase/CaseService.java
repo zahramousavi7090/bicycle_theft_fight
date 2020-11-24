@@ -1,6 +1,9 @@
 package com.bicyle_theft.demo.bicycleCase;
 
+import com.bicyle_theft.demo.CloseCaseDTO;
+import com.bicyle_theft.demo.exception.BadRequestException;
 import com.bicyle_theft.demo.exception.NotFoundException;
+import com.bicyle_theft.demo.police.PoliceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +16,12 @@ import java.util.UUID;
 public class CaseService {
 
     private final CaseRepository caseRepository;
+    private final PoliceRepository policeRepository;
 
     @Autowired
-    public CaseService(CaseRepository caseRepository) {
+    public CaseService(CaseRepository caseRepository, PoliceRepository policeRepository) {
         this.caseRepository = caseRepository;
+        this.policeRepository = policeRepository;
     }
 
     public Case CreateCase(Case aCase) {
@@ -54,4 +59,16 @@ public class CaseService {
     }
 
 
+    @Transactional
+    public void closeCase(CloseCaseDTO closeCaseDTO) {
+        if (closeCaseDTO.getCaseId() == null || closeCaseDTO.getPoliceId() == null)
+            throw new BadRequestException();
+
+
+        if (!caseRepository.existsById(closeCaseDTO.getCaseId()) || !policeRepository.existsById(closeCaseDTO.getPoliceId()))
+            throw new BadRequestException();
+
+        caseRepository.changeStatus(closeCaseDTO.getCaseId(), "close");
+        policeRepository.changeStatus(closeCaseDTO.getPoliceId(), "free");
+    }
 }

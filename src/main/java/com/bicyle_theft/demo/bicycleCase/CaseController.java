@@ -1,5 +1,6 @@
 package com.bicyle_theft.demo.bicycleCase;
 
+import com.bicyle_theft.demo.CloseCaseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -73,5 +74,13 @@ public class CaseController {
         caseService.deleteById(id);
     }
 
+
+    @Operation(summary = "patch a case by its id for change its status")
+    @PatchMapping(value="/close-case")
+    public void closeCase(@RequestBody CloseCaseDTO closeCaseDTO){
+        caseService.closeCase(closeCaseDTO);
+
+
+    }
 
 }
