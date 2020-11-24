@@ -50,4 +50,18 @@ public class PoliceController {
         return policeService.getPoliceByID(id);
     }
 
+
+    @Operation(summary = "edit a police by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "edit the police",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Police.class)) }),
+            @ApiResponse(responseCode = "404", description = "this police Not Found!",
+                    content = @Content) })
+    @PutMapping(value = "/{policeId}")
+    public Police updatePolice(@PathVariable(value = "policeId") UUID id, @RequestBody Police police) {
+        return policeService.updatePolice(id, police);
+
+    }
+
 }
