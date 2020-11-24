@@ -15,7 +15,9 @@ public class CaseService {
         this.caseRepository = caseRepository;
     }
 
-
+    public Case CreateCase(Case aCase) {
+        return caseRepository.save(aCase);
+    }
 
     public List<Case> getCases() {
         return caseRepository.findAllNotDeleted();
