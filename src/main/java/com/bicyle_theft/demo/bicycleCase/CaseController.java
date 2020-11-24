@@ -48,5 +48,17 @@ public class CaseController {
         return caseService.getCaseByID(id);
     }
 
+    @Operation(summary = "edit a case by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "edit the case",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Case.class)) }),
+            @ApiResponse(responseCode = "404", description = "this case Not Found!",
+                    content = @Content) })
+    @PutMapping(value = "/{caseId}")
+    public Case updateCase(@PathVariable(value = "caseId") UUID id, @RequestBody Case aCase) {
+        caseService.updateCase(id, aCase);
+        return aCase;
+    }
 
 }
