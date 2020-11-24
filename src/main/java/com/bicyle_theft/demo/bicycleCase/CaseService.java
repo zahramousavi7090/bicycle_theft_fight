@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CaseService {
@@ -21,6 +23,10 @@ public class CaseService {
 
     public List<Case> getCases() {
         return caseRepository.findAllNotDeleted();
+    }
+
+    public Optional<Case> getCaseByID(UUID id) {
+        return caseRepository.findById(id).filter(aCase -> !(aCase.isDeleted()));
     }
 
 }
