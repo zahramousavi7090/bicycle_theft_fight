@@ -3,6 +3,7 @@ package com.bicyle_theft.demo.bicycleCase;
 import com.bicyle_theft.demo.CloseCaseDTO;
 import com.bicyle_theft.demo.exception.BadRequestException;
 import com.bicyle_theft.demo.exception.NotFoundException;
+import com.bicyle_theft.demo.police.Police;
 import com.bicyle_theft.demo.police.PoliceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,7 +73,19 @@ public class CaseService {
         policeRepository.changeStatus(closeCaseDTO.getPoliceId(), "free");
     }
 
-    public List<Case> findCasesByStatus(String status){
+    public List<Case> findCasesByStatus(String status) {
         return caseRepository.findCasesByStatus(status);
+    }
+
+    @Transactional
+    public void makeCaseInProgress(UUID caseId, UUID policeId) {
+        Police police = policeRepository.getOne(policeId);
+        Case acase = caseRepository.getOne(caseId);
+        police.setStatus("engage");
+        acase.setPolice(police);
+        acase.setStatus("inProgress");
+
+        policeRepository.save(police);
+        caseRepository.save(acase);
     }
 }
