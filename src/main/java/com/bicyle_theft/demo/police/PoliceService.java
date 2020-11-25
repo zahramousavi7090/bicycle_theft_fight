@@ -1,6 +1,7 @@
 package com.bicyle_theft.demo.police;
 
 import com.bicyle_theft.demo.exception.NotFoundException;
+import com.bicyle_theft.demo.notify.Notifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,16 +13,20 @@ import java.util.UUID;
 @Service
 public class PoliceService {
     private final PoliceRepository policeRepository;
+    private final Notifier notifier;
 
     @Autowired
 
-    public PoliceService(PoliceRepository policeRepository) {
+    public PoliceService(PoliceRepository policeRepository, Notifier notifier) {
         this.policeRepository = policeRepository;
+        this.notifier = notifier;
     }
 
 
     public Police createPolice(Police police) {
-        return policeRepository.save(police);
+        Police p = policeRepository.save(police);
+        notifier.notifyPolice(p.getId());
+        return p;
     }
 
 
@@ -57,8 +62,8 @@ public class PoliceService {
         policeRepository.setDeleteById(id);
     }
 
-    public List<Police> findPoliceByStatus(String status){
-       return policeRepository.findPoliceByStatus(status);
+    public List<Police> findPoliceByStatus(String status) {
+        return policeRepository.findPoliceByStatus(status);
     }
 
 }

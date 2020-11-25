@@ -3,7 +3,7 @@ package com.bicyle_theft.demo.bicycleCase;
 import com.bicyle_theft.demo.CloseCaseDTO;
 import com.bicyle_theft.demo.exception.BadRequestException;
 import com.bicyle_theft.demo.exception.NotFoundException;
-import com.bicyle_theft.demo.police.Police;
+import com.bicyle_theft.demo.notify.Notifier;
 import com.bicyle_theft.demo.police.PoliceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,15 +18,20 @@ public class CaseService {
 
     private final CaseRepository caseRepository;
     private final PoliceRepository policeRepository;
+    private final Notifier notifier;
 
     @Autowired
-    public CaseService(CaseRepository caseRepository, PoliceRepository policeRepository) {
+    public CaseService(CaseRepository caseRepository, PoliceRepository policeRepository, Notifier notifier) {
         this.caseRepository = caseRepository;
         this.policeRepository = policeRepository;
+        this.notifier = notifier;
     }
 
     public Case CreateCase(Case aCase) {
-        return caseRepository.save(aCase);
+
+        Case c = caseRepository.save(aCase);
+        notifier.notifyCase(c.getId());
+        return c;
     }
 
     public List<Case> getCases() {
@@ -71,21 +76,12 @@ public class CaseService {
 
         caseRepository.changeStatus(closeCaseDTO.getCaseId(), "close");
         policeRepository.changeStatus(closeCaseDTO.getPoliceId(), "free");
+        notifier.notifyPolice(closeCaseDTO.getPoliceId());
     }
 
     public List<Case> findCasesByStatus(String status) {
         return caseRepository.findCasesByStatus(status);
     }
 
-    @Transactional
-    public void makeCaseInProgress(UUID caseId, UUID policeId) {
-        Police police = policeRepository.getOne(policeId);
-        Case acase = caseRepository.getOne(caseId);
-        police.setStatus("engage");
-        acase.setPolice(police);
-        acase.setStatus("inProgress");
 
-        policeRepository.save(police);
-        caseRepository.save(acase);
-    }
 }
